@@ -50,7 +50,7 @@ model = Classifier().to(device)
 criterion = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.0005)
 
-data_dir = '/content/drive/MyDrive/ultrasound breast classification'
+data_dir = 'data'  # Update this path as needed
 train_transforms = transforms.Compose([
     transforms.Resize(224),
     transforms.CenterCrop(224),
@@ -132,4 +132,32 @@ for epoch in range(epochs):
             loss = criterion(logits, labels)
             valid_loss += loss.item() * images.size(0)
             ps = torch.exp(logits)
-            top_k, top_class = ps.top
+            top_k, top_class = ps.topk(1, dim=1)
+            equals = top_class == labels.view(*top_class.shape)
+            v_acc += equals.sum().item()
+
+    train_loss = train_loss / len(train_loader.sampler)
+    valid_loss = valid_loss / len(valid_loader.sampler)
+    train_accuracy.append(t_acc / len(train_loader.sampler))
+    val_accuracy.append(v_acc / len(valid_loader.sampler))
+
+    print(f"Epoch {epoch + 1} - Training Loss: {train_loss:.6f}, Validation Loss: {valid_loss:.6f}")
+
+    if valid_loss <= valid_loss_min:
+        print(f"Validation loss decreased ({valid_loss_min:.6f} --> {valid_loss:.6f}). Saving model ...")
+        torch.save(model.state_dict(), "model_cnn.pt")
+        valid_loss_min = valid_loss
+
+# Load the best model
+model.load_state_dict(torch.load("model_cnn.pt"))
+
+# Plot training and validation accuracy
+plt.plot(train_accuracy, label="Training Accuracy")
+plt.plot(val_accuracy, label="Validation Accuracy")
+plt.legend()
+plt.show()
+
+def validate_model(model, valid_loader, criterion):
+    valid_loss = 0.0
+    v_acc = 0.0
+    model.eval()
