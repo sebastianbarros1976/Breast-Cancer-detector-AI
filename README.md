@@ -5,13 +5,14 @@ This project demonstrates the use of a Convolutional Neural Network (CNN) to cla
 ## Table of Contents
 
 1. [Installation](#installation)
-2. [Model Architecture](#model-architecture)
-3. [Data Preparation](#data-preparation)
-4. [Training the Model](#training-the-model)
-5. [Evaluation](#evaluation)
-6. [Creating a Gradio Interface](#creating-a-gradio-interface)
-7. [Running the Application](#running-the-application)
-8. [License](#license)
+2. [Dataset](#dataset)
+3. [Model Architecture](#model-architecture)
+4. [Data Preparation](#data-preparation)
+5. [Training the Model](#training-the-model)
+6. [Evaluation](#evaluation)
+7. [Creating a Gradio Interface](#creating-a-gradio-interface)
+8. [Running the Application](#running-the-application)
+9. [License](#license)
 
 ## Installation
 
@@ -24,6 +25,17 @@ This project demonstrates the use of a Convolutional Neural Network (CNN) to cla
 2. Install the required dependencies:
     ```bash
     pip install -r requirements.txt
+    ```
+
+## Dataset
+
+The dataset used for this project is the [Ultrasound Breast Images for Breast Cancer](https://www.kaggle.com/datasets/vuppalaadithyasairam/ultrasound-breast-images-for-breast-cancer?fbclid=IwAR20PikUw-IiuE0hNEi3i_h79qaTtSfmqq-nJhVh_9L1op_DSO8BXuRfMpI) dataset from Kaggle.
+
+1. Download the dataset from Kaggle and extract it into a directory named `data`.
+
+    ```bash
+    kaggle datasets download -d vuppalaadithyasairam/ultrasound-breast-images-for-breast-cancer
+    unzip ultrasound-breast-images-for-breast-cancer.zip -d data
     ```
 
 ## Model Architecture
